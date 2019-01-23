@@ -2,15 +2,18 @@
 
 namespace Logger;
 
-use Storage\StorageFabric;
-
 class LoggerClass
 {
+    private $storage;
 
-    public static function log_info($info, $errorCode, $additional, $destination)
+    public function __construct(Storage $storage)
     {
+        $this->storage = $storage;
+    }
 
-        $storage = (new StorageFabric)->defineStorage($destination);
-        $storage->insertLogInfo($info, $errorCode, $additional);
+    public function log_info($info, $errorCode, $additional) {
+    }
+        $this->storage->insertLogInfo($info, $errorCode, $additional);
     }
 }
+

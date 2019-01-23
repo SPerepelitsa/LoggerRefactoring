@@ -3,8 +3,9 @@
 namespace Database;
 
 use \PDO;
+use LoggerInterfaces\LogInfoService;
 
-class DB
+class DB implements LogInfoService
 {
     private $host = 'localhost';
     private $db = 'db';

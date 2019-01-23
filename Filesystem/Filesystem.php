@@ -2,9 +2,10 @@
 
 namespace Filesystem;
 
-class Filesystem
-{
+use LoggerInterfaces\LogInfoService;
 
+class Filesystem implements LogInfoService
+{
     public function insertLogInfo($info, $errorCode, $additional)
     {
         $data = $info . ' ' . $errorCode . ' ' . $additional . PHP_EOL;
