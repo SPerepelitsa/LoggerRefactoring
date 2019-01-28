@@ -11,8 +11,8 @@ class LoggerClass
         $this->storage = $storage;
     }
 
-    public function log_info($info, $errorCode, $additional) {
-    }
+    public function log_info($info, $errorCode, $additional)
+    {
         $this->storage->insertLogInfo($info, $errorCode, $additional);
     }
 }
