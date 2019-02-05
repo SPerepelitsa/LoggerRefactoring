@@ -46,18 +46,34 @@ class Filesystem implements LogInfoService
     }
 
 
-    public function deleteOldLogFiles()
+    private function getDateFromFilename($filename)
+    {
+        $date = (date_parse_from_format("Y_m_d", $filename));
+        $timestamp = mktime(
+            $date['hour'],
+            $date['minute'],
+            $date['second'],
+            $date['month'],
+            $date['day'],
+            $date['year']
+        );
+
+        return $timestamp;
+    }
+
+    public function deleteOldLogFiles($period)
     {
         $logFilesArray = $this->getFilesByPrefix();
-        if (count($logFilesArray) < $this->filesNumberLimit) {
+        if (count($logFilesArray) < 1) {
             return;
         }
-        natsort($logFilesArray);
-        $filesToDelete = count($logFilesArray) - $this->filesNumberLimit;
-        foreach (array_slice($logFilesArray, 0, $filesToDelete) as $logFile) {
-            $path = $this->getFilePath($logFile);
-            if (is_writable($path)) {
-                @unlink($path);
+
+        foreach ($logFilesArray as $logFile) {
+            if ($this->getDateFromFilename($logFile) < strtotime("-1 {$period}")) {
+                $path = $this->getFilePath($logFile);
+                if (is_writable($path)) {
+                    @unlink($path);
+                }
             }
         }
     }
